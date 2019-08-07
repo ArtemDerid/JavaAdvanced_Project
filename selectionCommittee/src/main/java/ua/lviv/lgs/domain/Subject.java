@@ -1,0 +1,7 @@
+package ua.lviv.lgs.domain;
+
+public enum Subject {
+	
+	MATH, UKRAINIAN_LANGUAGE, FOREIGN_LANGUAGE, HISTORY, GEOGRAPHY, CHEMISTRY, PHYSICS, BIOLOGY;
+
+}
