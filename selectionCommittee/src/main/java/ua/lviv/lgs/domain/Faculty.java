@@ -2,11 +2,33 @@ package ua.lviv.lgs.domain;
 
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "faculty")
 public class Faculty {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	
+	@Column
 	private String name;
+	
+	@Column(name = "number_of_students")
 	private Integer numberOfStudents;
+	
+	@ElementCollection(targetClass = Subject.class)
+	@CollectionTable(name="subject", joinColumns = @JoinColumn(name="faculty_id") ) 
+	@Column(name="required_subjects", nullable=false) 
 	private List<Subject> requiredSubjects;
 
 	public Faculty() {

@@ -1,12 +1,27 @@
 package ua.lviv.lgs.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user")
 public class User {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
+	private String confirmPassword;
+	
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
 	public User() {
@@ -29,6 +44,16 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.role = role;
+	}
+	
+	public User(User user) {
+		super();
+		this.id = user.id;
+		this.firstName = user.firstName;
+		this.lastName = user.lastName;
+		this.email = user.email;
+		this.password = user.password;
+		this.role = user.role;
 	}
 
 	public Integer getId() {
@@ -69,6 +94,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public UserRole getRole() {

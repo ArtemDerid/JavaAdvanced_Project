@@ -2,6 +2,6 @@ package ua.lviv.lgs.domain;
 
 public enum UserRole {
 	
-	ADMIN, ENTRANT;
+	ROLE_ADMIN, ROLE_ENTRANT;
 
 }
