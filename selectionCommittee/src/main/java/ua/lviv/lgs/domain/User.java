@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
 
 	@Id
@@ -20,7 +20,7 @@ public class User {
 	private String email;
 	private String password;
 	private String confirmPassword;
-	
+
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
@@ -45,7 +45,7 @@ public class User {
 		this.password = password;
 		this.role = role;
 	}
-	
+
 	public User(User user) {
 		super();
 		this.id = user.id;

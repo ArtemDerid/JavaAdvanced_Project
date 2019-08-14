@@ -2,14 +2,12 @@ package ua.lviv.lgs.domain;
 
 import java.util.List;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -19,29 +17,27 @@ public class Faculty {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
+
 	@Column
 	private String name;
-	
+
 	@Column(name = "number_of_students")
 	private Integer numberOfStudents;
-	
-	@ElementCollection(targetClass = Subject.class)
-	@CollectionTable(name="subject", joinColumns = @JoinColumn(name="faculty_id") ) 
-	@Column(name="required_subjects", nullable=false) 
-	private List<Subject> requiredSubjects;
+
+	@ElementCollection
+	private List<NameOfSubject> requiredSubjects;
 
 	public Faculty() {
 	}
 
-	public Faculty(String name, Integer numberOfStudents, List<Subject> requiredSubjects) {
+	public Faculty(String name, Integer numberOfStudents, List<NameOfSubject> requiredSubjects) {
 		super();
 		this.name = name;
 		this.numberOfStudents = numberOfStudents;
 		this.requiredSubjects = requiredSubjects;
 	}
 
-	public Faculty(Integer id, String name, Integer numberOfStudents, List<Subject> requiredSubjects) {
+	public Faculty(Integer id, String name, Integer numberOfStudents, List<NameOfSubject> requiredSubjects) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -73,11 +69,11 @@ public class Faculty {
 		this.numberOfStudents = numberOfStudents;
 	}
 
-	public List<Subject> getRequiredSubjects() {
+	public List<NameOfSubject> getRequiredSubjects() {
 		return requiredSubjects;
 	}
 
-	public void setRequiredSubjects(List<Subject> requiredSubjects) {
+	public void setRequiredSubjects(List<NameOfSubject> requiredSubjects) {
 		this.requiredSubjects = requiredSubjects;
 	}
 

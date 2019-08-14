@@ -1,7 +1,8 @@
 package ua.lviv.lgs.domain;
 
-import java.util.Map;
+import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,40 +13,46 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="entrant")
+@Table(name = "entrant")
 public class Entrant {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "faculty_id", referencedColumnName = "id")
 	private Faculty faculty;
 
+	@ElementCollection(targetClass = Subject.class)
+	private List<Subject> marks;
+	
 	@Transient
-	private Map<Subject, Integer> markForSubject;
+	private Integer facultyId;
+	
+	@Transient
+	private Integer email;
 
 	public Entrant() {
 	}
 
-	public Entrant(User user, Faculty faculty, Map<Subject, Integer> markForSubject) {
+	public Entrant(User user, Faculty faculty, List<Subject> marks) {
 		super();
 		this.user = user;
 		this.faculty = faculty;
-		this.markForSubject = markForSubject;
+		this.marks = marks;
 	}
 
-	public Entrant(Integer id, User user, Faculty faculty, Map<Subject, Integer> markForSubject) {
+	public Entrant(Integer id, User user, Faculty faculty, List<Subject> marks) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.faculty = faculty;
-		this.markForSubject = markForSubject;
+		this.marks = marks;
 	}
 
 	public Integer getId() {
@@ -72,12 +79,28 @@ public class Entrant {
 		this.faculty = faculty;
 	}
 
-	public Map<Subject, Integer> getMarkForSubject() {
-		return markForSubject;
+	public List<Subject> getMarks() {
+		return marks;
 	}
 
-	public void setMarkForSubject(Map<Subject, Integer> markForSubject) {
-		this.markForSubject = markForSubject;
+	public void setMarks(List<Subject> marks) {
+		this.marks = marks;
+	}
+
+	public Integer getFacultyId() {
+		return facultyId;
+	}
+
+	public void setFacultyId(Integer facultyId) {
+		this.facultyId = facultyId;
+	}
+
+	public Integer getEmail() {
+		return email;
+	}
+
+	public void setEmail(Integer email) {
+		this.email = email;
 	}
 
 	@Override
@@ -86,7 +109,7 @@ public class Entrant {
 		int result = 1;
 		result = prime * result + ((faculty == null) ? 0 : faculty.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((markForSubject == null) ? 0 : markForSubject.hashCode());
+		result = prime * result + ((marks == null) ? 0 : marks.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -110,10 +133,10 @@ public class Entrant {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (markForSubject == null) {
-			if (other.markForSubject != null)
+		if (marks == null) {
+			if (other.marks != null)
 				return false;
-		} else if (!markForSubject.equals(other.markForSubject))
+		} else if (!marks.equals(other.marks))
 			return false;
 		if (user == null) {
 			if (other.user != null)
@@ -125,8 +148,7 @@ public class Entrant {
 
 	@Override
 	public String toString() {
-		return "Entrant [id=" + id + ", user=" + user + ", faculty=" + faculty + ", markForSubject=" + markForSubject
-				+ "]";
+		return "Entrant [id=" + id + ", user=" + user + ", faculty=" + faculty + ", marks=" + marks + "]";
 	}
 
 }
