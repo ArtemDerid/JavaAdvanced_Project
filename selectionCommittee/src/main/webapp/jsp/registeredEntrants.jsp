@@ -38,15 +38,15 @@
   </div>
    <div class="w3-bar-block">
   <a class="w3-bar-item w3-button w3-green" href="/home">Home</a>
-  <a class="w3-bar-item w3-button" href="javascript:void(0)">Statement</a>
+  <a class="w3-bar-item w3-button" href="/statement">Statement</a>
   <a class="w3-bar-item w3-button" href="/registeredEntrants">See All Entrants</a>
   <div class="w3-dropdown-hover">
     <a class="w3-button" href="javascript:void(0)">Select Faculty<i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-bar-block w3-card-4">
-      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facultyId=1">Economical</a>
-      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facultyId=2">Biological</a>
-      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facultyId=3">Languages</a>
-      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facultyId=4">Geographical</a>
+    <a class="w3-bar-item w3-button" href="${contextPath}/enrolledEntrants?facId=1">Economical</a>
+      <a class="w3-bar-item w3-button" href="${contextPath}/enrolledEntrants?facId=2">Biological</a>
+      <a class="w3-bar-item w3-button" href="${contextPath}/enrolledEntrants?facId=3">Languages</a>
+      <a class="w3-bar-item w3-button" href="${contextPath}/enrolledEntrants?facId=4">Geographical</a>
     </div>
   </div>
   </div>
@@ -71,13 +71,18 @@
     </c:if>
     
   
+			
 					<table class="w3-table-all w3-large">
 					
 						<tr>
+							<th>Photo</th>
 							<th>First Name</th>
 							<th>Last Name</th>
 							<th>Faculty</th>
 							<th>Marks</th>
+							<th>Total mark</th>
+							<th>Accept field</th>
+							
 						</tr>
 						
 						
@@ -85,11 +90,19 @@
 						
 						<c:forEach items="${entrants}" var="currentEntrant">
 							<tr>
-							
+								<td><img src="data:image/jpg;base64, ${currentEntrant.encodedImage}" alt="Norway" style="width: 100%"></td>
 								<td>${currentEntrant.user.firstName}</td>
 								<td>${currentEntrant.user.lastName}</td>
 								<td>${currentEntrant.faculty.name}</td>
-							    <td>${currentEntrant.marks}</td>
+								<td>${currentEntrant.marks}</td>
+							    <td>${currentEntrant.totalMark}</td>
+							    
+							   <td><form:form action="${contextPath}/registeredEntrants" method="POST">
+								<input type="hidden" value="${currentEntrant.id}"
+									class="form-control" name="entrantId"> 
+									<input type="submit" class="w3-button w3-block w3-dark-grey"
+									value="+ add to statement">
+							</form:form></td>
 							</tr>
 						
 						</c:forEach>
@@ -113,6 +126,7 @@ function w3_close() {
   document.getElementById("openNav").style.display = "inline-block";
 }
 </script>
+
 
 
   

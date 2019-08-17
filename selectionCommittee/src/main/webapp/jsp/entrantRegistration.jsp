@@ -38,15 +38,15 @@
   </div>
   <div class="w3-bar-block">
   <a class="w3-bar-item w3-button w3-green" href="/home">Home</a>
-  <a class="w3-bar-item w3-button" href="javascript:void(0)">Statement</a>
+  <a class="w3-bar-item w3-button" href="/statement">Statement</a>
   <a class="w3-bar-item w3-button" href="/registeredEntrants">See All Entrants</a>
   <div class="w3-dropdown-hover">
     <a class="w3-button" href="javascript:void(0)">Select Faculty<i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-bar-block w3-card-4">
-      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facultyId=1">Economical</a>
-      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facultyId=2">Biological</a>
-      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facultyId=3">Languages</a>
-      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facultyId=4">Geographical</a>
+      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facId=1">Economical</a>
+      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facId=2">Biological</a>
+      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facId=3">Languages</a>
+      <a class="w3-bar-item w3-button" href="${contextPath}/registeredEntrants?facId=4">Geographical</a>
     </div>
   </div>
   </div>
@@ -70,10 +70,15 @@
 
     </c:if>
     
-   <form:form method="POST" action="${contextPath}/entrantRegistration" modelAttribute="entrant">
+   <form:form method="POST" action="${contextPath}/entrantRegistration" enctype="multipart/form-data">
 					<table>
 						<tr>
 							<th>Please fill in your marks from subjects:</th>
+						</tr>
+						
+						<tr>
+							<td>Upload your photo, please</td>
+							<td><input type="file" name="image" /></td>
 						</tr>
 						
 						<c:forEach items="${entrant.faculty.requiredSubjects}" var="currentSubject">

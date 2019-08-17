@@ -16,10 +16,10 @@ public class Subject {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@Enumerated(EnumType.STRING)
 	private NameOfSubject nameOfSubject;
-	
+
 	@Column
 	private int mark;
 
@@ -93,7 +93,7 @@ public class Subject {
 
 	@Override
 	public String toString() {
-		return nameOfSubject + ", mark=" + mark +" ";
+		return nameOfSubject.toString().toLowerCase().replace('_', ' ') + " - " + mark;
 	}
 
 }

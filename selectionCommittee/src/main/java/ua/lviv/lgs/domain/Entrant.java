@@ -1,20 +1,27 @@
 package ua.lviv.lgs.domain;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 @Entity
 @Table(name = "entrant")
-public class Entrant {
+public class Entrant implements Comparable<Entrant>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,28 +38,44 @@ public class Entrant {
 	@ElementCollection(targetClass = Subject.class)
 	private List<Subject> marks;
 	
-	@Transient
-	private Integer facultyId;
+	@Column
+	private Integer totalMark;
 	
 	@Transient
-	private Integer email;
+	private MultipartFile file;
+	
+	private boolean accepted;
+	
+	@Lob
+	private String encodedImage;
 
 	public Entrant() {
 	}
 
-	public Entrant(User user, Faculty faculty, List<Subject> marks) {
+	public Entrant(MultipartFile file, User user, Faculty faculty, List<Subject> marks) throws IOException {
 		super();
 		this.user = user;
 		this.faculty = faculty;
 		this.marks = marks;
+		this.totalMark = 0;
+		for (Subject subject : this.marks) {
+			totalMark += subject.getMark();
+		}
+		this.accepted = false;
+		this.encodedImage=Base64.getEncoder().encodeToString(file.getBytes());
 	}
 
-	public Entrant(Integer id, User user, Faculty faculty, List<Subject> marks) {
+	public Entrant(MultipartFile file, Integer id, User user, Faculty faculty, List<Subject> marks) throws IOException {
 		super();
 		this.id = id;
 		this.user = user;
 		this.faculty = faculty;
 		this.marks = marks;
+		for (Subject subject : this.marks) {
+			totalMark += subject.getMark();
+		}
+		this.accepted = false;
+		this.encodedImage=Base64.getEncoder().encodeToString(file.getBytes());
 	}
 
 	public Integer getId() {
@@ -87,20 +110,36 @@ public class Entrant {
 		this.marks = marks;
 	}
 
-	public Integer getFacultyId() {
-		return facultyId;
+	public String getEncodedImage() {
+		return encodedImage;
 	}
 
-	public void setFacultyId(Integer facultyId) {
-		this.facultyId = facultyId;
+	public void setEncodedImage(String encodedImage) {
+		this.encodedImage = encodedImage;
 	}
 
-	public Integer getEmail() {
-		return email;
+	public Integer getTotalMark() {
+		return totalMark;
 	}
 
-	public void setEmail(Integer email) {
-		this.email = email;
+	public void setTotalMark(Integer totalMark) {
+		this.totalMark = totalMark;
+	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 
 	@Override
@@ -148,7 +187,18 @@ public class Entrant {
 
 	@Override
 	public String toString() {
-		return "Entrant [id=" + id + ", user=" + user + ", faculty=" + faculty + ", marks=" + marks + "]";
+		return "Entrant [id=" + id + ", user=" + user + ", faculty=" + faculty + ", marks=" + StringUtils.join(marks, "") + "]";
+	}
+
+	@Override
+	public int compareTo(Entrant o) {
+		if(this.totalMark<o.getTotalMark()) {
+			return 1;
+		}
+		if(this.totalMark>o.getTotalMark()) {
+			return -1;
+		}
+		return 0;
 	}
 
 }

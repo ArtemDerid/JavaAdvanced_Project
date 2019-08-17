@@ -1,5 +1,6 @@
 package ua.lviv.lgs.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ua.lviv.lgs.domain.Entrant;
@@ -47,7 +49,7 @@ public class FacultyController {
 	}
 	
 	@PostMapping("/entrantRegistration")
-	public String saveEntrant(@RequestParam Integer facultyId, @RequestParam String email, @RequestParam List<Integer> marks) {
+	public String saveEntrant(@RequestParam Integer facultyId, @RequestParam String email, @RequestParam List<Integer> marks, @RequestParam MultipartFile image) throws IOException {
 		
 		User user = userService.findByEmail(email);
 		Faculty faculty = facultyService.findById(facultyId);
@@ -59,7 +61,7 @@ public class FacultyController {
 			subjectService.save(subject);
 			listOfSubjects.add(subject);
 		}
-		Entrant entrant = new Entrant(user, faculty, listOfSubjects);
+		Entrant entrant = new Entrant(image, user, faculty, listOfSubjects);
 		entrantsService.save(entrant);
 		return "redirect:/home";	
 		
