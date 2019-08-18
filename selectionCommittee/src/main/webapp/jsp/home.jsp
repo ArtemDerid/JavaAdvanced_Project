@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -36,9 +37,13 @@
   class="w3-bar-item w3-button w3-right w3-padding-16" title="close Sidebar">&times;</button>
   </div>
   <div class="w3-bar-block">
-  <a class="w3-bar-item w3-button w3-green" href="/home">Home</a>
+  <a class="w3-bar-item w3-button w3-green" href="/home">Home</a>  
   <a class="w3-bar-item w3-button" href="/statement">Statement</a>
-  <a class="w3-bar-item w3-button" href="/registeredEntrants">See All Entrants</a>
+ 
+  <security:authorize access="hasRole('ROLE_ADMIN')">
+  <a class="w3-bar-item w3-button" href="/registeredEntrants">User Registrations</a>
+   </security:authorize>
+   
   <div class="w3-dropdown-hover">
     <a class="w3-button" href="javascript:void(0)">Select Faculty<i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-bar-block w3-card-4">
@@ -70,7 +75,7 @@
      </c:if>
     
 	
-	<div>
+	<div style="display: flex">
 	<c:if test="${not empty faculties}">
 					<c:forEach items="${faculties}" var="currentFaculty">
 
@@ -81,8 +86,11 @@
 								<p>Faculty will recruit ${currentFaculty.numberOfStudents} students</p>
 								<p>Subjects required for entering: ${currentFaculty.requiredSubjects}</p>
 							</div>
+							<security:authorize access="hasRole('ROLE_ENTRANT')">
 							<a class="w3-button w3-block w3-dark-grey" href="${contextPath}/entrantRegistration?facultyId=${currentFaculty.id}&email=${pageContext.request.userPrincipal.name}">+ apply to the faculty</a>
+							</security:authorize>
 						</div>
+						
 
 					</c:forEach>
 				</c:if>
