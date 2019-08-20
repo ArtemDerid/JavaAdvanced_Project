@@ -28,7 +28,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		var selItem = localStorage.getItem("locales");
-		$('#locales').val(selItem ? selItem : 'en');
+		$('#locales').val(selItem ? selItem : 'uk');
 		$("#locales").change(function() {
 			var selectedOption = $('#locales').val();
 			if (selectedOption) {
@@ -42,9 +42,20 @@
 </head>
 <body>
 
+<div style="position:absolute; left: 80%; top: 20px">
+				<fieldset>
+					<label><spring:message code="login.choose_language" /></label> <select
+						id="locales">
+						<option value="uk"><spring:message code='login.ukrainian'/></option>
+						<option value="en"><spring:message code='login.english'/></option>
+
+					</select>
+				</fieldset>
+			</div>
+
 <!-- Where all the magic happens -->
 <!-- LOGIN FORM -->
-<div class="text-center" style="padding:50px 0">
+<div class="text-center" style="padding:100px 0">
 	<div class="logo"><spring:message code='login.login'/></div>
 	<!-- Main Form -->
 	<div class="login-form-1">
@@ -65,16 +76,6 @@
                          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				</div>
 				<button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
-			</div>
-			<div style="position:fixed; right: 20 px; top: 20px">
-				<fieldset>
-					<label><spring:message code="login.choose_language" /></label> <select
-						id="locales">
-						<option value="en"><spring:message code='login.english'/></option>
-						<option value="uk"><spring:message code='login.ukrainian'/></option>
-
-					</select>
-				</fieldset>
 			</div>
 			<div class="etc-login-form">
 				<p><spring:message code='login.new_user'/> <a href="${contextPath}/registration"><spring:message code='login.create_account'/></a></p>
