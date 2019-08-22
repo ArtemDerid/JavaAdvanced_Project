@@ -24,11 +24,6 @@ public class EntrantService {
 		return entrantRepository.save(entrant);
 	}
 
-	public List<Entrant> getAllEntrants() {
-		logger.debug("Show all entrants ");
-		return entrantRepository.findAll();
-	}
-
 	public Entrant update(Integer id) {
 		Entrant entrant = new Entrant();
 		Entrant entrantFromDb = entrantRepository.getOne(id);
